@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if is_edit %}
+  Редактировать запись
+{% else %}
+  Добавить запись
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  {% if is_edit %}
+    {% url 'posts:post_edit' post.id as action_url %}
+    {% include 'includes/form_work.html' with card_header='Редактировать запись' action_url=action_url %}
+  {% else %}
+    {% url 'posts:post_create' as action_url %}
+    {% include 'includes/form_work.html' with card_header='Добавить запись' action_url=action_url %}
+  {% endif %}
+
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                  {% if is_edit %}
+                   Сохранить
+                  {% else %}
+                   Добавить
+                  {% endif %}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

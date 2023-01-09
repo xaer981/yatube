@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+Ошибка на сервере
+{% endblock title %}
+
+{% block content %}
+<h1>Произошла ошибка на сервере</h1>
+<p>Попробуйте зайти позже</p>
+<a href="{% url 'posts:index' %}">Вернуться на главную</a>
+{% endblock content %}

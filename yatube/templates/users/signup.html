@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Зарегистрироваться{% endblock %}
+{% block content %}
+{% url 'users:signup' as action_url %}
+{% include 'includes/form_work.html' with card_header='Зарегистрироваться' action_url=action_url %}
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                  Зарегистрироваться
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}

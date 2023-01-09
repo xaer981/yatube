@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+Ошибка доступа
+{% endblock title %}
+
+{% block content %}
+<h1>У Вас нет доступа к этой странице</h1>
+<a href="{% url 'posts:index' %}">Вернуться на главную</a>
+{% endblock content %}
