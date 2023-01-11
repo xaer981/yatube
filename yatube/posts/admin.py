@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Group, Post
+from .models import Comment, Follow, Group, Post
 
 
 @admin.register(Post)
@@ -17,4 +17,17 @@ class PostAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    """
+    Отображает в админке поля модели Comment,
+    позволяет искать по тексту, фильтровать по дате публикации.
+    """
+    list_display = ('pk', 'text', 'created', 'post', 'author')
+    search_fields = ('text',)
+    list_filter = ('created',)
+    empty_value_display = '-пусто-'
+
+
+admin.site.register(Follow)
 admin.site.register(Group)

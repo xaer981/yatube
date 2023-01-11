@@ -21,17 +21,16 @@ class PostModelTest(TestCase):
 
     def test_post_have_correct_objects_names(self):
         """
-        Проверяет правильность вывода текстового представления объекта Post.
+        Проверяет правильность вывода
+        текстового представления объекта Post и Group.
         """
-        expected_object_name = self.post.text[:CHARS_LIMIT]
-        self.assertEqual(expected_object_name, str(self.post))
-
-    def test_group_have_correct_objects_names(self):
-        """
-        Проверяет правильность вывода текстового представления объекта Group.
-        """
-        expected_object_name = self.group.title
-        self.assertEqual(expected_object_name, str(self.group))
+        object_and_expected = {
+            str(self.post): self.post.text[:CHARS_LIMIT],
+            str(self.group): self.group.title,
+        }
+        for object, expected in object_and_expected.items():
+            with self.subTest(object=object):
+                self.assertEqual(expected, object)
 
     def test_verbose_name(self):
         """

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, PostForm
-from .models import Comment, Follow, Group, Post, User
+from .models import Follow, Group, Post, User
 from .utils import create_page_obj
 
 
@@ -63,11 +63,8 @@ def profile(request, username):
     profile = get_object_or_404(User, username=username)
     posts = profile.posts.all()
     page_obj = create_page_obj(request, posts)
-    try:
-        Follow.objects.get(user=request.user, author=profile)
-        following = True
-    except BaseException:
-        following = False
+    following = (not request.user.is_anonymous
+                 and Follow.objects.filter(user=request.user, author=profile))
     context = {
         'following': following,
         'profile': profile,
@@ -84,12 +81,11 @@ def post_detail(request, post_id):
     """
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, pk=post_id)
-    comments = Comment.objects.filter(post=post)
-    form = CommentForm()
+    comments = post.comments.all()
     context = {
         'post': post,
         'comments': comments,
-        'form': form,
+        'form': CommentForm(),
     }
 
     return render(request, template, context)
@@ -143,6 +139,7 @@ def post_edit(request, post_id):
 
 @login_required
 def add_comment(request, post_id):
+    """Добавляет запись в Comment."""
     post = get_object_or_404(Post, pk=post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -156,10 +153,10 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
+    """Выводит на страницу все посты авторов, на кого подписан юзер."""
     template = 'posts/follow.html'
     user = get_object_or_404(User, username=request.user.username)
-    following = user.follower.values('author_id')
-    posts = Post.objects.filter(author__in=following)
+    posts = Post.objects.filter(author__following__user=user)
     page_obj = create_page_obj(request, posts)
     context = {
         'page_obj': page_obj,
@@ -170,22 +167,21 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
+    """Добавляет запись в подписке в Follow."""
     author = get_object_or_404(User, username=username)
     already_followed = Follow.objects.filter(
         user=request.user, author=author).exists()
     if request.user != author and not already_followed:
         Follow(user=request.user, author=author).save()
 
-    return redirect('posts:profile', username=author.get_username())
+    return redirect('posts:profile', username=username)
 
 
 @login_required
 def profile_unfollow(request, username):
-    author = get_object_or_404(User, username=username)
-    already_followed = Follow.objects.filter(
-        user=request.user, author=author).exists()
-    if request.user != author and already_followed:
-        record = get_object_or_404(Follow, user=request.user, author=author)
-        record.delete()
+    """Удаляет запись о подписке из Follow."""
+    record = Follow.objects.filter(
+        user=request.user, author__username=username)
+    record.delete()
 
-    return redirect('posts:profile', username=author.get_username())
+    return redirect('posts:profile', username=username)

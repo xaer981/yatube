@@ -1,7 +1,7 @@
-from core.models import CreatedModel
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from core.models import CreatedModel
 from .constants import CHARS_LIMIT
 
 User = get_user_model()
@@ -115,5 +115,13 @@ class Follow(models.Model):
     )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'author'],
+                                    name='unique_follow')
+        ]
         verbose_name = 'подписка'
         verbose_name_plural = 'подписки'
+
+    def __str__(self) -> str:
+
+        return f'{self.user.username} подписан на {self.author.username}'
