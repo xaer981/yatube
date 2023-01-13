@@ -64,7 +64,8 @@ def profile(request, username):
     posts = profile.posts.all()
     page_obj = create_page_obj(request, posts)
     following = (not request.user.is_anonymous
-                 and Follow.objects.filter(user=request.user, author=profile))
+                 and Follow.objects.filter(user=request.user, author=profile)
+                 .exists())
     context = {
         'following': following,
         'profile': profile,
@@ -180,8 +181,7 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     """Удаляет запись о подписке из Follow."""
-    record = Follow.objects.filter(
-        user=request.user, author__username=username)
-    record.delete()
+    Follow.objects.filter(
+        user=request.user, author__username=username).delete()
 
     return redirect('posts:profile', username=username)

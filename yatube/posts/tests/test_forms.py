@@ -77,15 +77,29 @@ class PostsFormsTest(TestCase):
                                             group_id=form_data['group'],
                                             author=self.user,
                                             image=f'posts/{uploaded.name}')
-                        .exclude(id__in=posts_ids_before))
+                        .exclude(id__in=posts_ids_before).exists())
 
     def test_post_edit_form(self):
         """
         Валидная форма в post_edit редактирует существующую запись в Post.
         """
+        another_small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00'
+            b'\x01\x00\x80\x00\x00\x05\x04\x04'
+            b'\x00\x00\x00\x2c\x00\x00\x00\x00'
+            b'\x01\x00\x01\x00\x00\x02\x02\x44'
+            b'\x01\x00\x3b'
+        )
+        uploaded = SimpleUploadedFile(
+            name='another_small.gif',
+            content=another_small_gif,
+            content_type='image/gif'
+        )
+
         editted_data = {
             'text': 'Изменённый пост формы',
             'group': self.group_2.id,
+            'image': uploaded,
         }
 
         posts_count = Post.objects.count()
@@ -101,7 +115,9 @@ class PostsFormsTest(TestCase):
         self.assertTrue(Post.objects.filter(id=self.post.id,
                                             text=editted_data['text'],
                                             group_id=editted_data['group'],
-                                            author=self.user))
+                                            author=self.user,
+                                            image=f'posts/{uploaded.name}')
+                        .exists())
 
     def test_comment_form(self):
         """Варидная форма написания комментария создаёт запись в Comment."""
@@ -124,4 +140,5 @@ class PostsFormsTest(TestCase):
                          len(comments_ids_before) + 1)
         self.assertTrue(Comment.objects.filter(text=form_data['text'],
                                                author=self.user,
-                                               post=self.post))
+                                               post=self.post)
+                        .exclude(id__in=comments_ids_before).exists())

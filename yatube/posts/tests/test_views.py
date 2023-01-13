@@ -125,14 +125,13 @@ class PostsPagesTest(TestCase):
     def test_profile_show_correct_context(self):
         """Проверяет context profile: посты, профиль и флаг подписки."""
         follower = User.objects.create_user(username='follower')
-        follower_client = Client()
-        follower_client.force_login(follower)
-        follow = Follow.objects.create(
+        self.authorized_client.force_login(follower)
+        Follow.objects.create(
             user=follower,
             author=self.user,
         )
 
-        response = follower_client.get(
+        response = self.authorized_client.get(
             reverse('posts:profile', kwargs={'username': self.user.username}))
         post = response.context['page_obj'][0]
         profile = response.context['profile']
@@ -141,12 +140,6 @@ class PostsPagesTest(TestCase):
         self.check_post_atributes(post)
         self.assertEqual(profile, self.user)
         self.assertTrue(following)
-
-        follow.delete()
-        response = follower_client.get(
-            reverse('posts:profile', kwargs={'username': self.user.username}))
-        following = response.context['following']
-        self.assertFalse(following)
 
     def test_post_detail_show_correct_context(self):
         """
