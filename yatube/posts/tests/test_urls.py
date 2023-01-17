@@ -9,8 +9,6 @@ class PostsUrlTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='url_test')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test-slug',
@@ -20,6 +18,11 @@ class PostsUrlTests(TestCase):
             author=cls.user,
             text='Тестовый пост',
         )
+
+    def setUp(self):
+        super().setUp()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_guest_users_url(self):
         """Проверяет доступность страниц всем юзерам."""

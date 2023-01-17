@@ -21,8 +21,6 @@ class PostsPagesTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='view_test')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test-slug',
@@ -52,6 +50,11 @@ class PostsPagesTest(TestCase):
             post=cls.post,
             author=cls.user,
         )
+
+    def setUp(self):
+        super().setUp()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
@@ -243,12 +246,15 @@ class PostsFollowTests(TestCase):
         super().setUpClass()
         cls.author = User.objects.create_user(username='author')
         cls.follower = User.objects.create_user(username='follower')
-        cls.follower_client = Client()
-        cls.follower_client.force_login(cls.follower)
         cls.post = Post.objects.create(
             text='follow test',
             author=cls.author
         )
+
+    def setUp(self):
+        super().setUp()
+        self.follower_client = Client()
+        self.follower_client.force_login(self.follower)
 
     def test_follow_func(self):
         """Проверяет, что после подписки создаётся объект в Follow."""

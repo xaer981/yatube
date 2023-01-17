@@ -17,8 +17,6 @@ class PostsFormsTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='test')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.group_1 = Group.objects.create(
             title='Тестовая группа форм 1',
             slug='test-form-slug-1',
@@ -34,6 +32,11 @@ class PostsFormsTest(TestCase):
             group=cls.group_1,
             author=cls.user,
         )
+
+    def setUp(self):
+        super().setUp()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
