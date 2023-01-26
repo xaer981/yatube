@@ -10,7 +10,7 @@
 
 {% block content %}
 
-  <div class="container py-5">
+  <div class="container col-lg-6 col-md-10 col-sm-12 py-5">
     {% if is_edit %}
       {% url 'posts:post_edit' post.id as action_url %}
       {% include 'includes/form_work.html' with card_header='Редактировать запись' button_text='Сохранить' action_url=action_url %}

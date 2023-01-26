@@ -1,7 +1,7 @@
 {% load user_filters %}
 <div class="row justify-content-center">
   <div class="col-md-8 p-5">
-    <div class="card">
+    <div class="card text-bg-dark">
       <div class="card-header">
         {{ card_header }}
       </div>
@@ -39,12 +39,12 @@
               </div>
             </div>
           {% endfor %}
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary">
+          <div class="d-flex justify-content-center btn-group-vertical">
+            <button type="submit" class="btn btn-dark btn-outline-light me-2">
               {{ button_text }}
             </button>
-            {% if action_url == 'users:login' %}
-              <a href="{% url 'users:password_reset' %}" class="btn btn-link">
+            {% if action_url == '/auth/login/' %}
+              <a href="{% url 'users:password_reset' %}" class="btn btn-link btn-outline-light">
                 Забыли пароль?
               </a>
             {% endif %}

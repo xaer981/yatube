@@ -1,29 +1,32 @@
 {% load thumbnail %}
-<article>
-  <ul>
-    <li>
-      Автор: {{ post.author.get_full_name }}
-      <a href="{% url 'posts:profile' post.author.username %}">
-        все посты пользователя
-      </a>
-    </li>
-    <li>
-      Дата публикации: {{ post.created|date:"d E Y" }}
-    </li>
-  </ul>
+<div class="card text-bg-dark my-2">
   {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
-    <img src="{{ im.url }}">
+    <img class="card-img" src="{{ im.url }}">
   {% endthumbnail %}
-  <p>{{ post.text|linebreaks }}</p>
-  <a href="{% url 'posts:post_detail' post.id %}">
-    подробная информация
-  </a>
-  {% if group_posts_button %}
-    {% if post.group %}
-      <br>
-      <a href="{% url 'posts:group_list' post.group.slug %}">
-        все записи группы {{ post.group.title }}
-      </a>
-    {% endif %}
-  {% endif %}
-</article>
+
+  <div class="card-body">
+    <p>{{ post.text|linebreaks }}</p>
+  </div>
+
+  <div class="card-footer">
+    {{ post.author.get_full_name }}, {{ post.created|date:"d E Y г." }}
+    <br>
+    <div class="btn-toolbar justify-content-center pt-3">
+      <div class="btn-group">
+        <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-dark btn-outline-light">
+          все посты пользователя
+        </a>
+        <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-dark btn-outline-light">
+          подробная информация
+        </a>
+        {% if group_posts_button %}
+          {% if post.group %}
+            <a href="{% url 'posts:group_list' post.group.slug %}" class="btn btn-dark btn-outline-light">
+              все записи группы "{{ post.group.title }}"
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

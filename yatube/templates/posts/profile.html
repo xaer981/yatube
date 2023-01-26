@@ -2,23 +2,36 @@
 {% block title %}Профайл пользователя {{ profile.get_full_name }}{% endblock title %}
 {% block content %}
 
-  <div class="container py-5">
-    <div class="border-bottom border-dark mb-5">
+  <div class="container col-lg-6 col-md-10 col-sm-12 py-5">
+    <div class="border-bottom border-dark mb-5 text-center">
       <h1>Все посты пользователя {{ profile.get_full_name }}</h1>
-      <h3>Всего постов: {{ profile.posts.count }}</h3>
-      <h3>Всего подписок: {{ profile.follower.count }}</h3>
-      <h3>Всего подписчиков: {{ profile.following.count }}</h3>
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th scope="col">Всего постов</th>
+            <th scope="col">Всего подписок</th>
+            <th scope="col">Всего подписчиков</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ profile.posts.count }}</td>
+            <td>{{ profile.follower.count }}</td>
+            <td>{{ profile.following.count }}</td>
+          </tr>
+        </tbody>
+      </table>
       {% if request.user != profile and request.user.is_authenticated %}
         {% if following %}
           <a
-            class="btn btn-lg btn-light mb-3"
+            class="btn btn-lg btn-light btn-outline-danger mb-3"
             href="{% url 'posts:profile_unfollow' profile.username %}" role="button"
           >
             Отписаться
           </a>
         {% else %}
           <a
-            class="btn btn-lg btn-primary mb-3"
+            class="btn btn-lg btn-success mb-3"
             href="{% url 'posts:profile_follow' profile.username %}" role="button"
           >
             Подписаться

@@ -2,14 +2,18 @@
 {% load cache %}
 {% block title %}Мои подписки{% endblock title %}
 {% block content %}
-  <div class="container py-5">
+  <div class="container col-lg-6 col-md-10 col-sm-12 py-5">
     {% include 'includes/posts/switcher.html' %}
-    <h1 class="mb-5 border-bottom border-dark">Мои подписки</h1>
-    {% for post in page_obj %}
-      {% include 'includes/posts/post_article.html' with group_posts_button=True %}
+    <h1 class="mb-5 pb-2 border-bottom border-dark text-center">Мои подписки</h1>
+    {% if page_obj %}
+      {% for post in page_obj %}
+        {% include 'includes/posts/post_article.html' with group_posts_button=True %}
 
-      {% if not forloop.last %}<hr>{% endif %}
-    {% endfor %}
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+    {% else %}
+      <h2 class="text-center">Вы пока ни на кого не подписаны.</h1>
+    {% endif %}
 
     {% include 'includes/posts/paginator.html' %}
 
