@@ -4,7 +4,9 @@
 {% endblock title %}
 
 {% block content %}
-<h1>Ошибка CSRF</h1>
-<p>Ошибка токена CSRF</p>
-<a href="{% url 'posts:index' %}">Вернуться на главную</a>
+<div class="container col-lg-6 col-md-10 col-sm-12 py-5 text-center">
+  <h1>Ошибка CSRF</h1>
+  <p>Ошибка токена CSRF</p>
+  <a href="{% url 'posts:index' %}" class="btn btn-dark">Вернуться на главную</a>
+</div>
 {% endblock content %}

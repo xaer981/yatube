@@ -4,9 +4,12 @@
   <div class="container col-lg-6 col-md-10 col-sm-12 py-5">
     {% include 'includes/posts/switcher.html' %}
     <h1 class="mb-5 pb-2 border-bottom border-dark text-center">Последние обновления на сайте</h1>
-    {% for post in page_obj %}
-      {% include 'includes/posts/post_article.html' with group_posts_button=True %}
-    {% endfor %}
+    {% load cache %}
+    {% cache 20 index_page request.get_full_path %}
+      {% for post in page_obj %}
+        {% include 'includes/posts/post_article.html' with group_posts_button=True %}
+      {% endfor %}
+    {% endcache %}
 
     {% include 'includes/posts/paginator.html' %}
 
