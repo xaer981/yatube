@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.cache import cache_page
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
@@ -21,6 +22,7 @@ def check_author(func):
     return check_user
 
 
+@cache_page(20, key_prefix='index_page')
 def index(request):
     """
     Выводит по N (число из константы POSTS_LIMIT) последних постов из Post
