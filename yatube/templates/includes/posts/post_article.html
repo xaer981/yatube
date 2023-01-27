@@ -12,10 +12,12 @@
     {{ post.author.get_full_name }}, {{ post.created|date:"d E Y г." }}
     <br>
     <div class="btn-toolbar justify-content-center pt-3">
-      <div class="btn-group">
-        <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-dark btn-outline-light">
-          все посты пользователя
-        </a>
+      <div class="btn-group flex-wrap">
+        {% if request.resolver_match.view_name != 'posts:profile' %}
+          <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-dark btn-outline-light">
+            все посты пользователя
+          </a>
+        {% endif %}
         <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-dark btn-outline-light">
           подробная информация
         </a>
