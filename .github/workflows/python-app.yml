@@ -45,7 +45,7 @@ jobs:
       run: cd yatube && pytest
 
     - name: Running Django migrations for tests
-      run: python manage.py migrate
+      run: cd yatube && python manage.py migrate
 
     - name: Testing with django tests
-      run: python manage.py test
+      run: cd yatube && python manage.py test
