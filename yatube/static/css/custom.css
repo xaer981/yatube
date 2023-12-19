@@ -1,0 +1,27 @@
+.card {
+    --bs-card-border-color: var(--bs-white);
+}
+
+.nav {
+    --bs-nav-link-hover-color: var(--bs-white)
+}
+
+.nav-link {
+    --bs-nav-link-color: var(--bs-white);
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: var(--bs-white);
+    --bs-nav-pills-link-active-color: var(--bs-dark);
+}
+
+.pagination {
+    --bs-pagination-active-bg: var(--bs-white);
+    --bs-pagination-active-border-color: var(--bs-dark);
+    --bs-pagination-bg: var(--bs-dark);
+    --bs-pagination-color: var(--bs-white);
+    --bs-pagination-hover-color: var(--bs-dark);
+    --bs-pagination-active-color: var(--bs-dark);
+    --bs-pagination-focus-color: var(--bs-white);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.1rem rgba(105, 105, 105, 0.25);
+}

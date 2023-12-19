@@ -25,7 +25,7 @@ if FILENAME not in project_dir_content:
 
 from django.utils.version import get_version
 
-assert get_version() < '3.0.0', 'Пожалуйста, используйте версию Django < 3.0.0'
+assert get_version() < '4.3.0', 'Пожалуйста, используйте версию Django < 4.3.0'
 
 from yatube.settings import INSTALLED_APPS
 

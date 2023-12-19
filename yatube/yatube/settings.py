@@ -1,18 +1,20 @@
 import os
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from dotenv import load_dotenv
 
-SECRET_KEY = 'gnzyr!5rpi++pa-gbn61--j-gshis%dr69c65!%o#he0_-b(@='
+load_dotenv()
 
-DEBUG = False
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = os.getenv('SECRET_KEY', default='MY_$ECRET_KEY)')
+
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '[::1]',
-    'testserver',
-    'www.yatube4k.pythonanywhere.com',
-    'yatube4k.pythonanywhere.com',
 ]
 
 
@@ -47,7 +49,7 @@ INTERNAL_IPS = [
 
 ROOT_URLCONF = 'yatube.urls'
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_DIR = BASE_DIR / 'templates'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -71,7 +73,7 @@ WSGI_APPLICATION = 'yatube.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -100,7 +102,7 @@ CACHES = {
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 LANGUAGE_CODE = 'ru'
 
@@ -111,12 +113,10 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [BASE_DIR / 'static', ]
