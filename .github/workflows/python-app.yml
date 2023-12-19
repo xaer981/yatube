@@ -43,3 +43,9 @@ jobs:
         flake8 tests --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
       run: cd yatube && pytest
+
+    - name: Running Django migrations for tests
+      run: python manage.py migrate
+
+    - name: Testing with django tests
+      run: python manage.py test
