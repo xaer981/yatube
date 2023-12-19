@@ -42,4 +42,9 @@ jobs:
         # exit-zero treats all errors as warnings
         flake8 tests --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
-      run: pwd && ls && pytest
+      env:
+        PYTHONPATH: yatube/
+        DJANGO_SETTINGS_MODULE: yatube.settings
+        TESTPATHS: tests/
+        PYTHON_FILES: test_*.py
+      run: pytest
