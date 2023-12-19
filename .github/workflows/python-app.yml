@@ -42,9 +42,4 @@ jobs:
         # exit-zero treats all errors as warnings
         flake8 tests --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
-      env:
-        SECRET_KEY: "5UP3R-53CR3T-K3Y-FR0M-TurboKach"
-        DEBUG: 1
-        ALLOWED_HOSTS: "*"
-      run: |
-        pytest
+      run: echo pwd && echo ls && pytest
