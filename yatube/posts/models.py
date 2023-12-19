@@ -10,14 +10,18 @@ User = get_user_model()
 class Group(models.Model):
     """Модель для групп. Имеет название, адрес, описание."""
     title = models.CharField(
-        'groups title',
+        'название группы',
         max_length=200
     )
     slug = models.SlugField(
-        'groups slug',
+        'адрес группы',
         unique=True
     )
-    description = models.TextField('groups description')
+    description = models.TextField('описание группы')
+
+    class Meta:
+        verbose_name = 'группа'
+        verbose_name_plural = 'группы'
 
     def __str__(self) -> str:
 
