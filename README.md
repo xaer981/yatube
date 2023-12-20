@@ -80,3 +80,7 @@
 
 > [!TIP]
 > Проект стал доступен по адресу `http://localhost:8000/`
+
+<p align=center>
+  <a href="url"><img src="https://github.com/xaer981/xaer981/blob/main/main_cat.gif" align="center" height="40" width="128"></a>
+</p>
